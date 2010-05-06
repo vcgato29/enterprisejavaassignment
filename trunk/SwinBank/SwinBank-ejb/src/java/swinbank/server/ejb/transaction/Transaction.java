@@ -109,8 +109,10 @@ public class Transaction {
         if (clientType == ClientType.IB || clientType == ClientType.ATM) {
             //own account only
             List<String> accounts = SwinDatabase.GetAccounts(custId);
-            Boolean to = false;
-            Boolean from = false;
+
+            boolean to = false;
+            boolean from = false;
+
             for (String account : accounts) {
                 if (account.equals(toAccountId)) {
                     to = true;
