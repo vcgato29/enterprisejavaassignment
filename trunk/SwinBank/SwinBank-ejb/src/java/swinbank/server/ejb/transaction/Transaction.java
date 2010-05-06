@@ -36,7 +36,7 @@ public class Transaction {
 
         UserAccount acc = SwinDatabase.getAccount(accountId);
         //check if the account exisis
-        if (acc == null) {
+        if (accountExists(accountId)) {
             throw new AccessDeniedException("\nAccount does not Exist!");
         }
 
@@ -57,19 +57,18 @@ public class Transaction {
             throw new AccessDeniedException("\nAmmount must be greater than zero!");
         }
 
-        UserAccount acc = SwinDatabase.getAccount(accountId);
         //check if the account exisis
-        if (acc == null) {
+        if (accountExists(accountId)) {
             throw new AccessDeniedException("\nAccount does not Exist!");
         }
 
         //check if the amount is greater than the balance
-        if (amount > acc.balance) {
+        if (accountHasMoney(amount, accountId)) {
             throw new AccessDeniedException("\nNot enough funds!");
         }
 
         //check that the account is owned by the customer
-        if (acc.userId.equals(custId)) {
+        if (ownAccount(accountId, custId)) {
             SwinDatabase.Withdrawal(accountId, amount);
             SwinDatabase.AddTransaction(TransactionType.Withdrawal, new Date(), accountId, null, amount, description);
         }
@@ -89,53 +88,64 @@ public class Transaction {
             throw new AccessDeniedException("\nAmmount must be greater than zero!");
         }
 
-        UserAccount acc = SwinDatabase.getAccount(toAccountId);
         //check if the to account exisis
-        if (acc == null) {
+        if (accountExists(toAccountId)) {
             throw new AccessDeniedException("\nTo Account does not Exist!");
         }
 
-        acc = SwinDatabase.getAccount(fromAccountId);
         //check if the from account exisis
-        if (acc == null) {
+        if (accountExists(fromAccountId)) {
             throw new AccessDeniedException("\nFrom Account does not Exist!");
         }
 
         //check if the amount is greater than the balance of the from account
-        if (amount > acc.balance) {
+        if (accountHasMoney(amount, toAccountId)) {
             throw new AccessDeniedException("\nNot enough funds!");
         }
 
         if (clientType == ClientType.IB || clientType == ClientType.ATM) {
-            //own account only
-            List<String> accounts = SwinDatabase.GetAccounts(custId);
-
-            boolean to = false;
-            boolean from = false;
-
-            for (String account : accounts) {
-                if (account.equals(toAccountId)) {
-                    to = true;
-                }
-                if (account.equals(fromAccountId)) {
-                    from = true;
-                }
-            }
-            //Customer has the two accounts
-            if (to && from) {
+            //check if the customer owns the two accounts
+            if (ownAccount(toAccountId, custId) && ownAccount(fromAccountId, custId)) {
                 SwinDatabase.Withdrawal(fromAccountId, amount);
                 SwinDatabase.Deposit(toAccountId, amount);
                 SwinDatabase.AddTransaction(TransactionType.MoneyTransfer, new Date(), fromAccountId, toAccountId, amount, description);
-            }
-            else
-            {
+            } else {
                 throw new AccessDeniedException("\nYou do not own one of the Accounts!");
             }
-        } else {
-            //any account
+        } else //TM{
+        //any account
+        {
             SwinDatabase.Withdrawal(fromAccountId, amount);
-            SwinDatabase.Deposit(toAccountId, amount);
-            SwinDatabase.AddTransaction(TransactionType.MoneyTransfer, new Date(), fromAccountId, toAccountId, amount, description);
         }
+        SwinDatabase.Deposit(toAccountId, amount);
+        SwinDatabase.AddTransaction(TransactionType.MoneyTransfer, new Date(), fromAccountId, toAccountId, amount, description);
+    }
+
+    private boolean ownAccount(String accountId, String custId) {
+        UserAccount acc = SwinDatabase.getAccount(accountId);
+        if (acc.userId.equals(custId)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean accountExists(String accountId) {
+        UserAccount acc = SwinDatabase.getAccount(accountId);
+        //check if the account exisis
+        if (acc == null) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean accountHasMoney(Double amount, String accountId) {
+        UserAccount acc = SwinDatabase.getAccount(accountId);
+
+        //check if the amount is greater than the balance
+        if (amount > acc.balance) {
+            return false;
+        }
+        return true;
     }
 }
