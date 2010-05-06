@@ -33,7 +33,7 @@ public class Login extends PortableRemoteObject implements LoginRemote {
             else
             {
                 //check if they have accounts
-                if (user.getAccounts().size() > 1)
+                if (user.getAccounts().size() > 0)
                     return !user.isStaff;
             }
         }
