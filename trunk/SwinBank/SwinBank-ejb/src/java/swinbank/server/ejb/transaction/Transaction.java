@@ -4,15 +4,13 @@
  */
 package swinbank.server.ejb.transaction;
 
-import java.util.Date;
-import java.util.List;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import swinbank.server.policy.AccessDeniedException;
+import swinbank.server.policy.AccountType;
 import swinbank.server.policy.ClientType;
 import swinbank.server.policy.SwinDatabase;
 import swinbank.server.policy.SwinDatabase.UserAccount;
-import swinbank.server.policy.TransactionType;
 
 /**
  *
@@ -34,16 +32,13 @@ public class Transaction {
             throw new AccessDeniedException("\nAmmount must be greater than zero!");
         }
 
-        UserAccount acc = SwinDatabase.getAccount(accountId);
         //check if the account exisis
         if (accountExists(accountId)) {
             throw new AccessDeniedException("\nAccount does not Exist!");
         }
 
-        //deposit money
-        SwinDatabase.Deposit(accountId, amount);
-        //add to the transaction history (type, date, from acc, to acc, amount, description)
-        SwinDatabase.AddTransaction(TransactionType.Deposit, new Date(), null, accountId, amount, description);
+        //deposit money from a TM or ATM into any account
+        SwinDatabase.deposit(accountId, amount, description);
     }
 
     public void withdrawal(String custId, String accountId, ClientType clientType, Double amount, String description) throws AccessDeniedException {
@@ -53,7 +48,7 @@ public class Transaction {
         }
 
         //check amount is positive
-        if (amount <= 0) {
+        if (amount < 0) {
             throw new AccessDeniedException("\nAmmount must be greater than zero!");
         }
 
@@ -67,19 +62,19 @@ public class Transaction {
             throw new AccessDeniedException("\nNot enough funds!");
         }
 
-        //check that the account is owned by the customer
-        if (ownAccount(accountId, custId)) {
-            SwinDatabase.Withdrawal(accountId, amount);
-            SwinDatabase.AddTransaction(TransactionType.Withdrawal, new Date(), accountId, null, amount, description);
+        if (clientType == ClientType.ATM) {
+            //check if the customer owns the accounts
+            if (ownAccount(accountId, custId)) {
+                //withdrawal money from customers own account at ATM
+                SwinDatabase.withdrawal(accountId, amount, description);
+            } else {
+                throw new AccessDeniedException("\nYou do not own the Accounts!");
+            }
+        } else {//TM
+            //withdrawal money from TM
+            SwinDatabase.withdrawal(accountId, amount, description);
         }
 
-        //the TM withdrawal
-        if (clientType == ClientType.TM) {
-            SwinDatabase.Withdrawal(accountId, amount);
-            SwinDatabase.AddTransaction(TransactionType.Withdrawal, new Date(), accountId, null, amount, description);
-        } else {
-            throw new AccessDeniedException("\nClient does not have enough priviliges to perform this action!");
-        }
     }
 
     public void moneyTransfer(String custId, String toAccountId, String fromAccountId, ClientType clientType, Double amount, String description) throws AccessDeniedException {
@@ -99,26 +94,63 @@ public class Transaction {
         }
 
         //check if the amount is greater than the balance of the from account
-        if (accountHasMoney(amount, toAccountId)) {
+        if (accountHasMoney(amount, fromAccountId)) {
             throw new AccessDeniedException("\nNot enough funds!");
         }
 
         if (clientType == ClientType.IB || clientType == ClientType.ATM) {
             //check if the customer owns the two accounts
             if (ownAccount(toAccountId, custId) && ownAccount(fromAccountId, custId)) {
-                SwinDatabase.Withdrawal(fromAccountId, amount);
-                SwinDatabase.Deposit(toAccountId, amount);
-                SwinDatabase.AddTransaction(TransactionType.MoneyTransfer, new Date(), fromAccountId, toAccountId, amount, description);
+                SwinDatabase.moneyTransfer(fromAccountId, toAccountId, amount, description);
             } else {
                 throw new AccessDeniedException("\nYou do not own one of the Accounts!");
             }
         } else //TM{
-        //any account
         {
-            SwinDatabase.Withdrawal(fromAccountId, amount);
+            SwinDatabase.moneyTransfer(fromAccountId, toAccountId, amount, description);
         }
-        SwinDatabase.Deposit(toAccountId, amount);
-        SwinDatabase.AddTransaction(TransactionType.MoneyTransfer, new Date(), fromAccountId, toAccountId, amount, description);
+    }
+
+    private void billPayment(String custId, String accountId, String billerId, ClientType clientType, Double amount, String description) throws AccessDeniedException {
+        //check if its not a IB
+        if (clientType == ClientType.TM || clientType == ClientType.ATM) {
+            throw new AccessDeniedException("\nYou do not have access to pay a bill!");
+        }
+
+        //check amount is positive
+        if (amount <= 0) {
+            throw new AccessDeniedException("\nAmmount must be greater than zero!");
+        }
+
+        //get the account id of the biller
+        String billerAccountId = SwinDatabase.biller(billerId).accountId();
+        //check if the  biller exisis
+        if (accountExists(billerAccountId)) {
+            throw new AccessDeniedException("\nBiller does not Exist!");
+        }
+
+        //check biller is a Biller account
+        if (SwinDatabase.account(billerAccountId).type != AccountType.Biller) {
+            throw new AccessDeniedException("\nBiller account is not a bill account!");
+        }
+
+        //check if the  account exisis
+        if (accountExists(accountId)) {
+            throw new AccessDeniedException("\nAccount does not Exist!");
+        }
+        //check account is a Standard account
+        if (SwinDatabase.account(accountId).type != AccountType.Standard) {
+            throw new AccessDeniedException("\nAccount account is not a standard account!");
+        }
+
+        //check if the amount is greater than the balance of the from account
+        if (accountHasMoney(amount, accountId)) {
+            throw new AccessDeniedException("\nNot enough funds!");
+        }
+
+        //pay bill
+        SwinDatabase.billPayment(accountId, billerAccountId, description);
+
     }
 
     private boolean ownAccount(String accountId, String custId) {
