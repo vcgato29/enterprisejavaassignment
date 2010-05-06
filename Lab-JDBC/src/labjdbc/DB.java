@@ -7,12 +7,9 @@ package labjdbc;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.Date;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 
 /**
  *
@@ -44,14 +41,14 @@ public class DB {
 
             //check for the presence of tables, and if they exist already, will delete them first.
             DatabaseMetaData dbd = cnnct.getMetaData();
-//
-//            if (dbd.getTables(null, null, "BILLERS", null).next()) {
-//                stmnt.execute("DROP TABLE BILLERS");
-//            }
-//
-//            if (dbd.getTables(null, null, "FINANCIALS", null).next()) {
-//                stmnt.execute("DROP TABLE FINANCIALS");
-//            }
+
+            if (dbd.getTables(null, null, "BILLERS", null).next()) {
+                stmnt.execute("DROP TABLE BILLERS");
+            }
+
+            if (dbd.getTables(null, null, "FINANCIALS", null).next()) {
+                stmnt.execute("DROP TABLE FINANCIALS");
+            }
             if (dbd.getTables(null, null, "TRANSACTIONS", null).next()) {
                 stmnt.execute("DROP TABLE TRANSACTIONS");
             }
@@ -87,14 +84,14 @@ public class DB {
             stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('W', '2010-04-25', '09:30:25', '1', 100.00, NULL, '' )");
 
 
-            stmnt.execute("CREATE TABLE FINANCIALS (StatementId CHAR(6) CONSTRAINT PK_FINANCIALS PRIMARY KEY, Date DATE, Time TIME, AccountId CHAR(14), Balance DOUBLE)");
-            stmnt.executeUpdate("INSERT INTO TABLE FINANCIALS(Date, Time, AccountId, Balance) VALUES" + "('1', , , ,);
+            stmnt.execute("CREATE TABLE FINANCIALS (StatementId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_FINANCIALS PRIMARY KEY, Date DATE, Time TIME, AccountId CHAR(14), Balance DOUBLE)");
+//            stmnt.executeUpdate("INSERT INTO TABLE FINANCIALS(Date, Time, AccountId, Balance) VALUES" + "('1', , , ,)");
 
 
 
 
-            stmnt.execute("CREATE TABLE BILLERS (BillerId CHAR(6) CONSTRAINT PK_BILLERS PRIMARY KEY, Name CHAR(40), AccountId CHAR(14))");
-            stmnt.execute("INSERT INTO TABLE BILLERS VALUES" + "");
+            stmnt.execute("CREATE TABLE BILLERS (BillerId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_BILLERS PRIMARY KEY, Name CHAR(40), AccountId CHAR(14))");
+//            stmnt.execute("INSERT INTO TABLE BILLERS VALUES" + "");
 
         } catch (SQLException ex) {
             while (ex != null) {
