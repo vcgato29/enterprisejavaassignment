@@ -36,6 +36,10 @@ public class DB {
         try {
             cnnct = getConnection();
             stmnt = cnnct.createStatement();
+//
+//      java.sql.Date birthDate = java.sql.Date.valueOf("1980-02-29");
+//      java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
+
 
 
             //check for the presence of tables, and if they exist already, will delete them first.
@@ -76,21 +80,21 @@ public class DB {
 
 
             stmnt.execute("CREATE TABLE TRANSACTIONS (TransId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_TRANSACTIONS PRIMARY KEY, TransType CHAR, Date DATE, Time TIME, FromAccountId CHAR(14), Amount DOUBLE, RecAccountId CHAR(14), Description CHAR(128))");
-            stmnt.executeUpdate("INSERT INTO TABLE TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', 2010-02-02, 12:44:14, NULL, 100.00, '1', '' )");
-            stmnt.executeUpdate("INSERT INTO TABLE TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', 2010-04-15, 16:30:25, NULL, 100.00, '2', '' )");
-            stmnt.executeUpdate("INSERT INTO TABLE TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('T', 2010-04-20, 13:30:25, '3', 100.00, '4', '' )");
-            stmnt.executeUpdate("INSERT INTO TABLE TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('B', 2010-04-21, 14:30:25, '1', 100.00, '1', '' )");
-            stmnt.executeUpdate("INSERT INTO TABLE TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('W', 2010-04-25, 09:30:25, '1', 100.00, NULL, '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', '2010-04-06', '12:30:25', NULL, 100.00, '1', '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', '2010-04-15', '16:30:25', NULL, 200.00, '2', '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('T', '2010-04-20', '13:30:25', '3', 100.00, '4', '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('B', '2010-04-21', '14:30:25', '1', 150.00, '1', '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('W', '2010-04-25', '09:30:25', '1', 100.00, NULL, '' )");
 
 
-//            stmnt.execute("CREATE TABLE FINANCIALS (StatementId CHAR(6) CONSTRAINT PK_FINANCIALS PRIMARY KEY, Date DATE, Time TIME, AccountId CHAR(14), Balance DOUBLE)");
-//            stmnt.executeUpdate("INSERT INTO TABLE FINANCIALS VALUES" + "('1', );
-//
-//
-//
-//
-//            stmnt.execute("CREATE TABLE BILLERS (BillerId CHAR(6) CONSTRAINT PK_BILLERS PRIMARY KEY, Name CHAR(40), AccountId CHAR(14))");
-//            stmnt.execute("INSERT INTO TABLE BILLERS VALUES" + "");
+            stmnt.execute("CREATE TABLE FINANCIALS (StatementId CHAR(6) CONSTRAINT PK_FINANCIALS PRIMARY KEY, Date DATE, Time TIME, AccountId CHAR(14), Balance DOUBLE)");
+            stmnt.executeUpdate("INSERT INTO TABLE FINANCIALS(Date, Time, AccountId, Balance) VALUES" + "('1', , , ,);
+
+
+
+
+            stmnt.execute("CREATE TABLE BILLERS (BillerId CHAR(6) CONSTRAINT PK_BILLERS PRIMARY KEY, Name CHAR(40), AccountId CHAR(14))");
+            stmnt.execute("INSERT INTO TABLE BILLERS VALUES" + "");
 
         } catch (SQLException ex) {
             while (ex != null) {
