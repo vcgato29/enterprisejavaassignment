@@ -84,6 +84,9 @@ public class Account implements AccountRemote {
     public List<String> getAccounts(String custID) throws AccessDeniedException {
         //check if customer exists
         if (checkCustomerID(custID)) {
+            //********************************************
+            //   THIS MUST ONLY RETURN ACTIVE ACCOUNTS
+            //********************************************
             return SwinDatabase.GetAccounts(custID);
         } else {
             throw new AccessDeniedException("\nCan not get the Accounts for that Customer");
