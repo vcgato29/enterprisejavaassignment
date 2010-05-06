@@ -16,8 +16,8 @@ public interface AccountRemote extends java.rmi.Remote{
 
     double getBalance(String accountId, String userId, ClientType clientType) throws RemoteException;
     void createAccount(String custID, ClientType clientType, AccountType accountType) throws RemoteException;
-    void createAccount(ClientType clientType, AccountType accountType) throws RemoteException;
-    void removeAccount(String custID, String accountId, ClientType clientType) throws RemoteException;
-    List<String> getAccounts(String custID) throws RemoteException;
-    List<String> getTransactions(String accountId, String custID, ClientType clientType, Date fromDate, Date toDate) throws RemoteException;
+    void createAccountNewCustomer(ClientType clientType, AccountType accountType) throws RemoteException;
+    void removeAccount(String accountId, ClientType clientType) throws RemoteException;
+    List<String> getAccounts(String custId) throws RemoteException;
+    List<String> getTransactions(String accountId, String custId, ClientType clientType, Date fromDate, Date toDate) throws RemoteException;
 }

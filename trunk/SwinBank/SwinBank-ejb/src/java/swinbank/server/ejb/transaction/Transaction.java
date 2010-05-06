@@ -28,12 +28,12 @@ public class Transaction {
         }
 
         //check amount is positive
-        if (amount <= 0) {
+        if (amount < 0) {
             throw new AccessDeniedException("\nAmmount must be greater than zero!");
         }
 
         //check if the account exisis
-        if (accountExists(accountId)) {
+        if (!accountExists(accountId)) {
             throw new AccessDeniedException("\nAccount does not Exist!");
         }
 
@@ -53,12 +53,12 @@ public class Transaction {
         }
 
         //check if the account exisis
-        if (accountExists(accountId)) {
+        if (!accountExists(accountId)) {
             throw new AccessDeniedException("\nAccount does not Exist!");
         }
 
         //check if the amount is greater than the balance
-        if (accountHasMoney(amount, accountId)) {
+        if (!accountHasMoney(amount, accountId)) {
             throw new AccessDeniedException("\nNot enough funds!");
         }
 
@@ -84,17 +84,17 @@ public class Transaction {
         }
 
         //check if the to account exisis
-        if (accountExists(toAccountId)) {
+        if (!accountExists(toAccountId)) {
             throw new AccessDeniedException("\nTo Account does not Exist!");
         }
 
         //check if the from account exisis
-        if (accountExists(fromAccountId)) {
+        if (!accountExists(fromAccountId)) {
             throw new AccessDeniedException("\nFrom Account does not Exist!");
         }
 
         //check if the amount is greater than the balance of the from account
-        if (accountHasMoney(amount, fromAccountId)) {
+        if (!accountHasMoney(amount, fromAccountId)) {
             throw new AccessDeniedException("\nNot enough funds!");
         }
 
@@ -105,8 +105,7 @@ public class Transaction {
             } else {
                 throw new AccessDeniedException("\nYou do not own one of the Accounts!");
             }
-        } else //TM{
-        {
+        } else {//TM
             SwinDatabase.moneyTransfer(fromAccountId, toAccountId, amount, description);
         }
     }
@@ -118,14 +117,14 @@ public class Transaction {
         }
 
         //check amount is positive
-        if (amount <= 0) {
+        if (amount < 0) {
             throw new AccessDeniedException("\nAmmount must be greater than zero!");
         }
 
         //get the account id of the biller
         String billerAccountId = SwinDatabase.biller(billerId).accountId();
         //check if the  biller exisis
-        if (accountExists(billerAccountId)) {
+        if (!accountExists(billerAccountId)) {
             throw new AccessDeniedException("\nBiller does not Exist!");
         }
 
@@ -135,7 +134,7 @@ public class Transaction {
         }
 
         //check if the  account exisis
-        if (accountExists(accountId)) {
+        if (!accountExists(accountId)) {
             throw new AccessDeniedException("\nAccount does not Exist!");
         }
         //check account is a Standard account
@@ -144,7 +143,7 @@ public class Transaction {
         }
 
         //check if the amount is greater than the balance of the from account
-        if (accountHasMoney(amount, accountId)) {
+        if (!accountHasMoney(amount, accountId)) {
             throw new AccessDeniedException("\nNot enough funds!");
         }
 
