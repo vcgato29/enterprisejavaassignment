@@ -22,7 +22,7 @@ import swinbank.server.policy.ClientType;
  *
  * @author Mark
  */
-public class BankServlet extends HttpServlet {
+public class MainServlet extends HttpServlet {
 
     private LoginRemote login;
     private AccountRemote account;
