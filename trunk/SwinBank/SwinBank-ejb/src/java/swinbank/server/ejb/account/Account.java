@@ -7,6 +7,8 @@ import javax.ejb.Stateless;
 import swinbank.server.policy.AccessDeniedException;
 import swinbank.server.policy.AccountType;
 import swinbank.server.policy.ClientType;
+import swinbank.server.policy.InvalidAccountException;
+import swinbank.server.policy.InvalidClientException;
 import swinbank.server.policy.SwinDatabase;
 import swinbank.server.policy.SwinDatabase.UserAccount;
 import swinbank.server.policy.SwinDatabase.User;
@@ -48,10 +50,10 @@ public class Account implements AccountRemote {
                 //Call the Create Account method in the database it will need to take the CumtomerID and the AccountType
                 SwinDatabase.createAccount(custId, accountType);
             } else {
-                throw new AccessDeniedException("\nCan not create an account for that Customer!");
+                throw new InvalidAccountException("\nCan not create an account for that Customer!");
             }
         } else {
-            throw new AccessDeniedException("\nClient does not have enough priviliges to perform this action!");
+            throw new InvalidClientException("\nClient does not have enough priviliges to perform this action!");
         }
     }
 
@@ -62,7 +64,7 @@ public class Account implements AccountRemote {
             //Call the Create Account method in the database it will need to take the AccountType
             SwinDatabase.CreateAccount(accountType);
         } else {
-            throw new AccessDeniedException("\nClient does not have enough priviliges to perform this action!");
+            throw new InvalidClientException("\nClient does not have enough priviliges to perform this action!");
         }
     }
 
@@ -71,11 +73,11 @@ public class Account implements AccountRemote {
         if (clientType == ClientType.TM) {
             //check if the  account exisis
             if (!accountExists(accountId)) {
-                throw new AccessDeniedException("\nAccount does not Exist!");
+                throw new InvalidAccountException("\nAccount does not Exist!");
             }
             SwinDatabase.SetAccountInactive(accountId);
         } else {
-            throw new AccessDeniedException("\nClient does not have enough priviliges to perform this action!");
+            throw new InvalidClientException("\nClient does not have enough priviliges to perform this action!");
         }
 
     }
@@ -89,17 +91,17 @@ public class Account implements AccountRemote {
             //********************************************
             return SwinDatabase.GetAccounts(custID);
         } else {
-            throw new AccessDeniedException("\nCan not get the Accounts for that Customer");
+            throw new InvalidAccountException("\nCan not get the Accounts for that Customer");
         }
     }
 
     public List<String> getTransactions(String accountId, String custId, ClientType clientType, Date fromDate, Date toDate) throws AccessDeniedException {
         //check Data errors
         if (toDate.after(new Date())) {
-            throw new AccessDeniedException("\nTo Data can not be in the future");
+            throw new InvalidDataException("\nTo Data can not be in the future");
         }
         if (fromDate.after(new Date())) {
-            throw new AccessDeniedException("\nFrom Data can not be in the future");
+            throw new InvalidDataException("\nFrom Data can not be in the future");
         }
 
         //check if the  account exisis
