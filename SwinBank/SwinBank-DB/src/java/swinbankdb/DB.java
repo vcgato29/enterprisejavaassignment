@@ -58,11 +58,11 @@ public class DB {
 
 
             //creates and populates the Login Table with Sample data.
-            stmnt.execute("CREATE TABLE LOGIN (CustId CHAR(6) CONSTRAINT PK_LOGIN PRIMARY KEY, Password CHAR(6))");
-            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password) VALUES" + "('0001', 'aaaa')");
-            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password) VALUES" + "('0002', 'bbbb')");
-            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password) VALUES" + "('0003', 'cccc')");
-            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password) VALUES" + "('0004', 'dddd')");
+            stmnt.execute("CREATE TABLE LOGIN (CustId CHAR(6) CONSTRAINT PK_LOGIN PRIMARY KEY, Password CHAR(6), isStaff SMALLINT)");
+            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password, isStaff) VALUES" + "('0001', 'aaaa', 1)");
+            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password, isStaff) VALUES" + "('0002', 'bbbb', 0)");
+            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password, isStaff) VALUES" + "('0003', 'cccc', 0)");
+            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password, isStaff) VALUES" + "('0004', 'dddd', 0)");
 
 
             //creates and populates the Accounts Table with Sample data.
