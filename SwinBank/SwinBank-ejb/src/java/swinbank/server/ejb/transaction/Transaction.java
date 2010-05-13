@@ -9,6 +9,10 @@ import javax.ejb.Stateless;
 import swinbank.server.policy.AccessDeniedException;
 import swinbank.server.policy.AccountType;
 import swinbank.server.policy.ClientType;
+import swinbank.server.policy.InvalidAccountException;
+import swinbank.server.policy.InvalidAmmountException;
+import swinbank.server.policy.InvalidClientException;
+import swinbank.server.policy.InvalidFundsException;
 import swinbank.server.policy.SwinDatabase;
 import swinbank.server.policy.SwinDatabase.UserAccount;
 
@@ -24,12 +28,12 @@ public class Transaction {
 
         //check if its a IB
         if (clientType == ClientType.IB) {
-            throw new AccessDeniedException("\nClient not alowed to make a Deposit!");
+            throw new InvalidClientException("\nClient not alowed to make a Deposit!");
         }
 
         //check amount is positive
         if (amount < 0) {
-            throw new AccessDeniedException("\nAmmount must be greater than zero!");
+            throw new InvalidAmmountException("\nAmmount must be greater than zero!");
         }
 
         //check if the account exisis
@@ -44,12 +48,12 @@ public class Transaction {
     public void withdrawal(String custId, String accountId, ClientType clientType, Double amount, String description) throws AccessDeniedException {
         //check if its a IB
         if (clientType == ClientType.IB) {
-            throw new AccessDeniedException("\nClient not alowed to make a Deposit!");
+            throw new InvalidClientException("\nClient not alowed to make a Deposit!");
         }
 
         //check amount is positive
         if (amount < 0) {
-            throw new AccessDeniedException("\nAmmount must be greater than zero!");
+            throw new InvalidAmmountException("\nAmmount must be greater than zero!");
         }
 
         //check if the account exisis
@@ -80,7 +84,7 @@ public class Transaction {
     public void moneyTransfer(String custId, String toAccountId, String fromAccountId, ClientType clientType, Double amount, String description) throws AccessDeniedException {
         //check amount is positive
         if (amount <= 0) {
-            throw new AccessDeniedException("\nAmmount must be greater than zero!");
+            throw new InvalidAmmountException("\nAmmount must be greater than zero!");
         }
 
         //check if the to account exisis
@@ -95,7 +99,7 @@ public class Transaction {
 
         //check if the amount is greater than the balance of the from account
         if (!accountHasMoney(amount, fromAccountId)) {
-            throw new AccessDeniedException("\nNot enough funds!");
+            throw new InvalidFundsException("\nNot enough funds!");
         }
 
         if (clientType == ClientType.IB || clientType == ClientType.ATM) {
@@ -113,12 +117,12 @@ public class Transaction {
     private void billPayment(String custId, String accountId, String billerId, ClientType clientType, Double amount, String description) throws AccessDeniedException {
         //check if its not a IB
         if (clientType == ClientType.TM || clientType == ClientType.ATM) {
-            throw new AccessDeniedException("\nYou do not have access to pay a bill!");
+            throw new InvalidClientException("\nYou do not have access to pay a bill!");
         }
 
         //check amount is positive
         if (amount < 0) {
-            throw new AccessDeniedException("\nAmmount must be greater than zero!");
+            throw new InvalidAmmountException("\nAmmount must be greater than zero!");
         }
 
         //get the account id of the biller
@@ -139,12 +143,12 @@ public class Transaction {
         }
         //check account is a Standard account
         if (SwinDatabase.account(accountId).type != AccountType.Standard) {
-            throw new AccessDeniedException("\nAccount account is not a standard account!");
+            throw new InvalidAccountException("\nAccount account is not a standard account!");
         }
 
         //check if the amount is greater than the balance of the from account
         if (!accountHasMoney(amount, accountId)) {
-            throw new AccessDeniedException("\nNot enough funds!");
+            throw new InvalidFundsException("\nNot enough funds!");
         }
 
         //pay bill
