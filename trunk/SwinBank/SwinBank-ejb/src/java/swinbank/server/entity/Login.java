@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,24 +26,26 @@ import javax.persistence.Table;
 public class Login implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "CUSTID")
-    private String custid;
+    private Integer custid;
+    
     @Column(name = "PASSWORD")
     private String password;
 
     public Login() {
     }
 
-    public Login(String custid) {
+    public Login(Integer custid) {
         this.custid = custid;
     }
 
-    public String getCustid() {
+    public Integer getCustid() {
         return custid;
     }
 
-    public void setCustid(String custid) {
+    public void setCustid(Integer custid) {
         this.custid = custid;
     }
 
@@ -51,6 +55,12 @@ public class Login implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    boolean isStaff;//TEMP
+    public boolean isStaff()
+    {
+        return isStaff;
     }
 
     @Override
