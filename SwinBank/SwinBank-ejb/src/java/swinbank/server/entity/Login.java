@@ -18,11 +18,16 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Vipin
+ * @author Mark
  */
 @Entity
 @Table(name = "LOGIN")
-@NamedQueries({@NamedQuery(name = "Login.findAll", query = "SELECT l FROM Login l"), @NamedQuery(name = "Login.findByCustid", query = "SELECT l FROM Login l WHERE l.custid = :custid"), @NamedQuery(name = "Login.findByPassword", query = "SELECT l FROM Login l WHERE l.password = :password")})
+@NamedQueries({
+    @NamedQuery(name = "Login.findAll", query = "SELECT l FROM Login l"),
+    @NamedQuery(name = "Login.findByCustid", query = "SELECT l FROM Login l WHERE l.custid = :custid"),
+    @NamedQuery(name = "Login.findByPassword", query = "SELECT l FROM Login l WHERE l.password = :password"),
+    @NamedQuery(name = "Login.findByIsstaff", query = "SELECT l FROM Login l WHERE l.isstaff = :isstaff"),
+    @NamedQuery(name = "Login.accountsCount", query = "SELECT COUNT(a) FROM Accounts a WHERE a.custid == :custid")})
 public class Login implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -30,9 +35,10 @@ public class Login implements Serializable {
     @Basic(optional = false)
     @Column(name = "CUSTID")
     private Integer custid;
-    
     @Column(name = "PASSWORD")
     private String password;
+    @Column(name = "ISSTAFF")
+    private Short isstaff;
 
     public Login() {
     }
@@ -57,10 +63,12 @@ public class Login implements Serializable {
         this.password = password;
     }
 
-    boolean isStaff;//TEMP
-    public boolean isStaff()
-    {
-        return isStaff;
+    public Short getIsstaff() {
+        return isstaff;
+    }
+
+    public void setIsstaff(Short isstaff) {
+        this.isstaff = isstaff;
     }
 
     @Override

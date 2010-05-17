@@ -5,6 +5,7 @@
 package swinbank.server.ejb.transaction;
 
 import javax.ejb.Remote;
+
 import javax.ejb.Stateless;
 import swinbank.server.policy.AccessDeniedException;
 import swinbank.server.policy.AccountType;
@@ -22,7 +23,7 @@ import swinbank.server.policy.SwinDatabase.UserAccount;
  */
 @Stateless
 @Remote(TransactionRemote.class)
-public class Transaction {
+public class TransactionBean {
 
     public void deposit(String accountId, ClientType clientType, Double amount, String description) throws AccessDeniedException {
 
