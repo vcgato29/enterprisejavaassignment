@@ -58,20 +58,23 @@ public class DB {
 
 
             //creates and populates the Login Table with Sample data.
-            stmnt.execute("CREATE TABLE LOGIN (CustId CHAR(6) CONSTRAINT PK_LOGIN PRIMARY KEY, Password CHAR(6), isStaff SMALLINT)");
-            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password, isStaff) VALUES" + "('0001', 'aaaa', 1)");
-            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password, isStaff) VALUES" + "('0002', 'bbbb', 0)");
-            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password, isStaff) VALUES" + "('0003', 'cccc', 0)");
-            stmnt.executeUpdate("INSERT INTO LOGIN(CustId, Password, isStaff) VALUES" + "('0004', 'dddd', 0)");
+
+            
+
+            stmnt.execute("CREATE TABLE LOGIN (CustId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_LOGIN PRIMARY KEY, Password CHAR(6), isStaff SMALLINT)");
+            stmnt.executeUpdate("INSERT INTO LOGIN( Password, isStaff) VALUES" + "( 'aaaa', 1)");
+            stmnt.executeUpdate("INSERT INTO LOGIN( Password, isStaff) VALUES" + "( 'bbbb', 0)");
+            stmnt.executeUpdate("INSERT INTO LOGIN( Password, isStaff) VALUES" + "( 'cccc', 0)");
+            stmnt.executeUpdate("INSERT INTO LOGIN( Password, isStaff) VALUES" + "( 'dddd', 0)");
 
 
             //creates and populates the Accounts Table with Sample data.
-            stmnt.execute("CREATE TABLE ACCOUNTS (AccountId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_ACCOUNTS PRIMARY KEY, CustId CHAR(6), AccountType CHAR, Balance DOUBLE)");
-            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "('0001', 'B', 200.00)");
-            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "('0002', 'P', 400.00)");
-            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "('0003', 'B', 600.00)");
-            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "('0004', 'P', 800.00)");
-            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "('0005', 'P', 1000.00)");
+            stmnt.execute("CREATE TABLE ACCOUNTS (AccountId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_ACCOUNTS PRIMARY KEY, CustId INT, AccountType CHAR, Balance DOUBLE)");
+            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "(1, 'B', 200.00)");
+            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "(1, 'S', 400.00)");
+            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "(2, 'B', 600.00)");
+            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "(3, 'S', 800.00)");
+            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "(4, 'S', 1000.00)");
 
 
             //creates and populates the Transactions Table with Sample data.
