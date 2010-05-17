@@ -69,12 +69,12 @@ public class DB {
 
 
             //creates and populates the Accounts Table with Sample data.
-            stmnt.execute("CREATE TABLE ACCOUNTS (AccountId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_ACCOUNTS PRIMARY KEY, CustId INT, AccountType CHAR, Balance DOUBLE)");
-            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "(1, 'B', 200.00)");
-            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "(1, 'S', 400.00)");
-            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "(2, 'B', 600.00)");
-            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "(3, 'S', 800.00)");
-            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance) VALUES" + "(4, 'S', 1000.00)");
+            stmnt.execute("CREATE TABLE ACCOUNTS (AccountId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_ACCOUNTS PRIMARY KEY, CustId INT, AccountType CHAR, Balance DOUBLE, isActive SMALLINT)");
+            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance, isActive) VALUES" + "(1, 'B', 200.00, 1)");
+            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance, isActive) VALUES" + "(1, 'S', 400.00, 1)");
+            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance, isActive) VALUES" + "(2, 'B', 600.00, 1)");
+            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance, isActive) VALUES" + "(3, 'S', 800.00, 1)");
+            stmnt.executeUpdate("INSERT INTO ACCOUNTS(CustId, AccountType, Balance, isActive) VALUES" + "(4, 'S', 1000.00, 1)");
 
 
             //creates and populates the Transactions Table with Sample data.
