@@ -18,12 +18,12 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Vipin
+ * @author Mark
  */
 @Entity
 @Table(name = "ACCOUNTS")
-@NamedQueries({@NamedQuery(name = "Accounts.findAll", query = "SELECT a FROM Accounts a"), @NamedQuery(name = "Accounts.findByAccountid", query = "SELECT a FROM Accounts a WHERE a.accountid = :accountid"), @NamedQuery(name = "Accounts.findByCustid", query = "SELECT a FROM Accounts a WHERE a.custid = :custid"), @NamedQuery(name = "Accounts.findByAccounttype", query = "SELECT a FROM Accounts a WHERE a.accounttype = :accounttype"), @NamedQuery(name = "Accounts.findByBalance", query = "SELECT a FROM Accounts a WHERE a.balance = :balance")})
-public class Accounts implements Serializable {
+@NamedQueries({@NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"), @NamedQuery(name = "Account.findByAccountid", query = "SELECT a FROM Account a WHERE a.accountid = :accountid"), @NamedQuery(name = "Account.findByCustid", query = "SELECT a FROM Account a WHERE a.custid = :custid"), @NamedQuery(name = "Account.findByAccounttype", query = "SELECT a FROM Account a WHERE a.accounttype = :accounttype"), @NamedQuery(name = "Account.findByBalance", query = "SELECT a FROM Account a WHERE a.balance = :balance"), @NamedQuery(name = "Account.findByIsactive", query = "SELECT a FROM Account a WHERE a.isactive = :isactive")})
+public class Account implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,16 +31,18 @@ public class Accounts implements Serializable {
     @Column(name = "ACCOUNTID")
     private Integer accountid;
     @Column(name = "CUSTID")
-    private String custid;
+    private Integer custid;
     @Column(name = "ACCOUNTTYPE")
     private Character accounttype;
     @Column(name = "BALANCE")
     private Double balance;
+    @Column(name = "ISACTIVE")
+    private Short isactive;
 
-    public Accounts() {
+    public Account() {
     }
 
-    public Accounts(Integer accountid) {
+    public Account(Integer accountid) {
         this.accountid = accountid;
     }
 
@@ -52,11 +54,11 @@ public class Accounts implements Serializable {
         this.accountid = accountid;
     }
 
-    public String getCustid() {
+    public Integer getCustid() {
         return custid;
     }
 
-    public void setCustid(String custid) {
+    public void setCustid(Integer custid) {
         this.custid = custid;
     }
 
@@ -76,6 +78,14 @@ public class Accounts implements Serializable {
         this.balance = balance;
     }
 
+    public Short getIsactive() {
+        return isactive;
+    }
+
+    public void setIsactive(Short isactive) {
+        this.isactive = isactive;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -86,10 +96,10 @@ public class Accounts implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Accounts)) {
+        if (!(object instanceof Account)) {
             return false;
         }
-        Accounts other = (Accounts) object;
+        Account other = (Account) object;
         if ((this.accountid == null && other.accountid != null) || (this.accountid != null && !this.accountid.equals(other.accountid))) {
             return false;
         }
@@ -98,7 +108,7 @@ public class Accounts implements Serializable {
 
     @Override
     public String toString() {
-        return "swinbank.server.entity.Accounts[accountid=" + accountid + "]";
+        return "swinbank.server.entity.Account[accountid=" + accountid + "]";
     }
 
 }
