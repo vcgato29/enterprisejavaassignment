@@ -70,8 +70,13 @@ public class AccountsBean implements AccountRemote {
 
     //current Customer
     public void createAccount(int custId, ClientType clientType, AccountType accountType) throws AccessDeniedException {
-
-        Login login = getLogin(custId);
+        Login login = null;
+        //check if the  login exisis
+        try {
+            login = getLogin(custId);
+        } catch (NoResultException e) {
+            throw new AccessDeniedException("\nUser does not exist");
+        }
         if (clientType == ClientType.TM) {
             //check that the customer exist and isnt staff
             if (login.getIsstaff() == 1) {
