@@ -157,7 +157,7 @@ public class TransactionBean {
         }
     }
 
-    private void billPayment(int custId, int accountId, int billerId, ClientType clientType, Double amount, String description) throws AccessDeniedException {
+    public void billPayment(int accountId, int billerId, ClientType clientType, Double amount, String description) throws AccessDeniedException {
         //check if its not a IB
         if (clientType == ClientType.TM || clientType == ClientType.ATM) {
             throw new InvalidClientException("\nYou do not have access to pay a bill!");
@@ -217,14 +217,7 @@ public class TransactionBean {
 
     }
 
-//    private boolean ownAccount(int accountId, int custId) {
-//        UserAccount acc = SwinDatabase.getAccount(accountId);
-//        if (acc.userId.equals(custId)) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
+
     private boolean accountHasMoney(Double amount, Account account) {
 
         //check if the amount is greater than the balance
