@@ -22,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ACCOUNTS")
-@NamedQueries({@NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"), @NamedQuery(name = "Account.findByAccountid", query = "SELECT a FROM Account a WHERE a.accountid = :accountid"), @NamedQuery(name = "Account.findByCustid", query = "SELECT a FROM Account a WHERE a.custid = :custid"), @NamedQuery(name = "Account.findByAccounttype", query = "SELECT a FROM Account a WHERE a.accounttype = :accounttype"), @NamedQuery(name = "Account.findByBalance", query = "SELECT a FROM Account a WHERE a.balance = :balance"), @NamedQuery(name = "Account.findByIsactive", query = "SELECT a FROM Account a WHERE a.isactive = :isactive")})
+@NamedQueries({@NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"), @NamedQuery(name = "Account.findByAccountid", query = "SELECT a FROM Account a WHERE a.accountid = :accountid"), @NamedQuery(name = "Account.findByCustid", query = "SELECT a FROM Account a WHERE a.custid = :custid"), @NamedQuery(name = "Account.findByAccounttype", query = "SELECT a FROM Account a WHERE a.accounttype = :accounttype"), @NamedQuery(name = "Account.findByBalance", query = "SELECT a FROM Account a WHERE a.balance = :balance"), @NamedQuery(name = "Account.findByIsactive", query = "SELECT a FROM Account a WHERE a.isactive = :isactive"),@NamedQuery(name = "Account.findByCustidAndIsActive", query = "SELECT a FROM Account a WHERE a.custid = :custid AND a.isactive = :isactive")})
 public class Account implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
