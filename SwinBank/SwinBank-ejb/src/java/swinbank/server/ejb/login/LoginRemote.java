@@ -16,6 +16,6 @@ import swinbank.server.policy.ClientType;
 @Remote
 public interface LoginRemote extends java.rmi.Remote{
 
-    boolean login(String userId, String password, ClientType clientType) throws RemoteException;
+    boolean login(int custId, String password, ClientType clientType) throws RemoteException;
     
 }
