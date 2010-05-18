@@ -1,5 +1,6 @@
 package swinbank.server.ejb.account;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
@@ -8,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import swinbank.server.ejb.login.LoginBean;
 import swinbank.server.entity.Account;
 import swinbank.server.entity.Login;
 import swinbank.server.entity.Transactions;
@@ -18,9 +18,6 @@ import swinbank.server.policy.ClientType;
 import swinbank.server.policy.InvalidAccountException;
 import swinbank.server.policy.InvalidClientException;
 import swinbank.server.policy.InvalidDataException;
-import swinbank.server.policy.SwinDatabase;
-import swinbank.server.policy.SwinDatabase.UserAccount;
-import swinbank.server.policy.SwinDatabase.User;
 
 /**
  *
