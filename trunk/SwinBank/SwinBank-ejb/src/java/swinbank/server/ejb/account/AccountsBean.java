@@ -184,12 +184,6 @@ public class AccountsBean implements AccountRemote {
             //check if the customer owns the accounts
             if (account.getCustid() == login.getCustid()) {
                 List<Transactions> transcationList = em.createNamedQuery("Transactions.findTransactionList").setParameter("account", account.getAccountid()).setParameter("todate", toDate).setParameter("fromdate", fromDate).getResultList();
-
-                /*
-                 *
-                 *  //TODO:Still need to fix up the thing with the data/time
-                 *
-                 */
                 return transcationList;
             } else {
                 throw new AccessDeniedException("\nYou do not own of the Account!");

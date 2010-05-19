@@ -14,17 +14,13 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import swinbank.server.entity.Account;
 import swinbank.server.entity.Billers;
-import swinbank.server.entity.Login;
 import swinbank.server.entity.Transactions;
 import swinbank.server.policy.AccessDeniedException;
-import swinbank.server.policy.AccountType;
 import swinbank.server.policy.ClientType;
 import swinbank.server.policy.InvalidAccountException;
 import swinbank.server.policy.InvalidAmmountException;
 import swinbank.server.policy.InvalidClientException;
 import swinbank.server.policy.InvalidFundsException;
-import swinbank.server.policy.SwinDatabase;
-import swinbank.server.policy.SwinDatabase.UserAccount;
 import swinbank.server.policy.TransactionType;
 
 /**
@@ -242,8 +238,7 @@ public class TransactionBean {
     private void newTransaction(TransactionType type, Account fromAccount, Account recAccount, Double amount, String description) {
         Transactions tran = new Transactions();
         tran.setAmount(amount);
-        tran.setDate(new Date());
-        tran.setTime(new Date());
+        tran.setDate(new Date().getTime());
         tran.setDescription(description);
         tran.setFromaccountid(fromAccount.getAccountid().toString());
         tran.setRecaccountid(fromAccount.getAccountid().toString());
