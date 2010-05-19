@@ -16,8 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
@@ -25,7 +23,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "TRANSACTIONS")
-@NamedQueries({@NamedQuery(name = "Transactions.findAll", query = "SELECT t FROM Transactions t"), @NamedQuery(name = "Transactions.findByTransid", query = "SELECT t FROM Transactions t WHERE t.transid = :transid"), @NamedQuery(name = "Transactions.findByTranstype", query = "SELECT t FROM Transactions t WHERE t.transtype = :transtype"), @NamedQuery(name = "Transactions.findByDate", query = "SELECT t FROM Transactions t WHERE t.date = :date"), @NamedQuery(name = "Transactions.findByTime", query = "SELECT t FROM Transactions t WHERE t.time = :time"), @NamedQuery(name = "Transactions.findByFromaccountid", query = "SELECT t FROM Transactions t WHERE t.fromaccountid = :fromaccountid"), @NamedQuery(name = "Transactions.findByAmount", query = "SELECT t FROM Transactions t WHERE t.amount = :amount"), @NamedQuery(name = "Transactions.findByRecaccountid", query = "SELECT t FROM Transactions t WHERE t.recaccountid = :recaccountid"), @NamedQuery(name = "Transactions.findByDescription", query = "SELECT t FROM Transactions t WHERE t.description = :description"), @NamedQuery(name = "Transactions.findTransactionList", query = "SELECT t FROM Transactions t WHERE (t.fromaccountid = :account OR t.recaccountid = :account) AND t.date <= :todate AND t.date >= :fromdate")})
+@NamedQueries({@NamedQuery(name = "Transactions.findAll", query = "SELECT t FROM Transactions t"), @NamedQuery(name = "Transactions.findByTransid", query = "SELECT t FROM Transactions t WHERE t.transid = :transid"), @NamedQuery(name = "Transactions.findByTranstype", query = "SELECT t FROM Transactions t WHERE t.transtype = :transtype"), @NamedQuery(name = "Transactions.findByDate", query = "SELECT t FROM Transactions t WHERE t.date = :date"), @NamedQuery(name = "Transactions.findByFromaccountid", query = "SELECT t FROM Transactions t WHERE t.fromaccountid = :fromaccountid"), @NamedQuery(name = "Transactions.findByAmount", query = "SELECT t FROM Transactions t WHERE t.amount = :amount"), @NamedQuery(name = "Transactions.findByRecaccountid", query = "SELECT t FROM Transactions t WHERE t.recaccountid = :recaccountid"), @NamedQuery(name = "Transactions.findByDescription", query = "SELECT t FROM Transactions t WHERE t.description = :description"), @NamedQuery(name = "Transactions.findTransactionList", query = "SELECT t FROM Transactions t WHERE (t.fromaccountid = :account OR t.recaccountid = :account) AND t.date <= :todate AND t.date >= :fromdate")})
 public class Transactions implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,11 +34,7 @@ public class Transactions implements Serializable {
     @Column(name = "TRANSTYPE")
     private Character transtype;
     @Column(name = "DATE")
-    @Temporal(TemporalType.DATE)
-    private Date date;
-    @Column(name = "TIME")
-    @Temporal(TemporalType.TIME)
-    private Date time;
+    private Long date;
     @Column(name = "FROMACCOUNTID")
     private String fromaccountid;
     @Column(name = "AMOUNT")
@@ -73,20 +67,12 @@ public class Transactions implements Serializable {
         this.transtype = transtype;
     }
 
-    public Date getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Long date) {
         this.date = date;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
     }
 
     public String getFromaccountid() {
