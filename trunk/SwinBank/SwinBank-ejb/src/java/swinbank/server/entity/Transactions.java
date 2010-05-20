@@ -70,6 +70,10 @@ public class Transactions implements Serializable {
     public Long getDate() {
         return date;
     }
+    
+    public Date getDateAsDate() {
+        return new Date(date);
+    }
 
     public void setDate(Long date) {
         this.date = date;
