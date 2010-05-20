@@ -34,7 +34,7 @@ public class Transactions implements Serializable {
     @Column(name = "TRANSTYPE")
     private Character transtype;
     @Column(name = "DATE")
-    private Long date;
+    private long date;
     @Column(name = "FROMACCOUNTID")
     private String fromaccountid;
     @Column(name = "AMOUNT")
@@ -67,7 +67,7 @@ public class Transactions implements Serializable {
         this.transtype = transtype;
     }
 
-    public Long getDate() {
+    public long getDate() {
         return date;
     }
     

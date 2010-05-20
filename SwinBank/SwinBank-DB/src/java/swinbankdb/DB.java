@@ -78,12 +78,12 @@ public class DB {
 
 
             //creates and populates the Transactions Table with Sample data.
-            stmnt.execute("CREATE TABLE TRANSACTIONS (TransId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_TRANSACTIONS PRIMARY KEY, TransType CHAR, Date LONG, FromAccountId CHAR(14), Amount DOUBLE, RecAccountId CHAR(14), Description CHAR(128))");
-            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', '1275608700000', NULL, 100.00, '1', '' )");
-            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', '1278028024000', NULL, 200.00, '2', '' )");
-            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('T', '1278215224000', '3', 100.00, '4', '' )");
-            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('B', '1280898004000', '1', 150.00, '1', '' )");
-            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, Time, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('W', '1280955643000', '1', 100.00, NULL, '' )");
+            stmnt.execute("CREATE TABLE TRANSACTIONS (TransId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_TRANSACTIONS PRIMARY KEY, TransType CHAR, Date BIGINT, FromAccountId CHAR(14), Amount DOUBLE, RecAccountId CHAR(14), Description CHAR(128))");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', 1275608700000, NULL, 100.00, '1', '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', 1278028024000, NULL, 200.00, '2', '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('T', 1278215224000, '3', 100.00, '4', '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('B', 1280898004000, '1', 150.00, '1', '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('W', 1280955643000, '1', 100.00, NULL, '' )");
 
 
             //creates and populates the Financials Table with Sample data.

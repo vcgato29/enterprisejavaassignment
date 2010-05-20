@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package swinbank.server.entity;
 
 import java.io.Serializable;
@@ -22,8 +21,17 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ACCOUNTS")
-@NamedQueries({@NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"), @NamedQuery(name = "Account.findByAccountid", query = "SELECT a FROM Account a WHERE a.accountid = :accountid"), @NamedQuery(name = "Account.findByCustid", query = "SELECT a FROM Account a WHERE a.custid = :custid"), @NamedQuery(name = "Account.findByAccounttype", query = "SELECT a FROM Account a WHERE a.accounttype = :accounttype"), @NamedQuery(name = "Account.findByBalance", query = "SELECT a FROM Account a WHERE a.balance = :balance"), @NamedQuery(name = "Account.findByIsactive", query = "SELECT a FROM Account a WHERE a.isactive = :isactive"),@NamedQuery(name = "Account.findByCustidAndIsActive", query = "SELECT a FROM Account a WHERE a.custid = :custid AND a.isactive = :isactive")})
+@NamedQueries({
+    @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
+    @NamedQuery(name = "Account.findByAccountid", query = "SELECT a FROM Account a WHERE a.accountid = :accountid"),
+    @NamedQuery(name = "Account.findByCustid", query = "SELECT a FROM Account a WHERE a.custid = :custid"),
+    @NamedQuery(name = "Account.findByAccounttype", query = "SELECT a FROM Account a WHERE a.accounttype = :accounttype"),
+    @NamedQuery(name = "Account.findByBalance", query = "SELECT a FROM Account a WHERE a.balance = :balance"),
+    @NamedQuery(name = "Account.findByIsactive", query = "SELECT a FROM Account a WHERE a.isactive = :isactive"),
+    @NamedQuery(name = "Account.findByCustidAndIsActive", query = "SELECT a FROM Account a WHERE a.custid = :custid AND a.isactive = :isactive"),
+    @NamedQuery(name = "Account.accountsCountActive", query = "SELECT a FROM Account a WHERE a.custid = :custid AND a.isactive = 1")})
 public class Account implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,5 +118,4 @@ public class Account implements Serializable {
     public String toString() {
         return "swinbank.server.entity.Account[accountid=" + accountid + "]";
     }
-
 }

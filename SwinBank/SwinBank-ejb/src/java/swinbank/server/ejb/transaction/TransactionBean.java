@@ -230,7 +230,7 @@ public class TransactionBean {
     }
 
     private Account getAccount(int accountId) {
-        Query acountByIdQuery = em.createNamedQuery("Accounts.findByAccountid").setParameter("accountid", accountId);
+        Query acountByIdQuery = em.createNamedQuery("Account.findByAccountid").setParameter("accountid", accountId);
         Account account = (Account) acountByIdQuery.getSingleResult();
         return account;
     }

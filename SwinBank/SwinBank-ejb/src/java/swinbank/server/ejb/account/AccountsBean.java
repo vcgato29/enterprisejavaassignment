@@ -56,7 +56,9 @@ public class AccountsBean implements AccountRemote {
 
         if (clientType == ClientType.IB || clientType == ClientType.ATM) {
             //check if the customer owns the accounts
-            if (account.getCustid() == login.getCustid()) {
+            System.out.println(account.getCustid());
+            System.out.println(login.getCustid());
+            if (account.getCustid().equals(login.getCustid())) {
                 return account.getBalance();
             } else {
                 throw new AccessDeniedException("\nYou do not own of the Account!");
@@ -201,7 +203,7 @@ public class AccountsBean implements AccountRemote {
     }
 
     private Account getAccount(int accountId) {
-        Query acountByIdQuery = em.createNamedQuery("Accounts.findByAccountid").setParameter("accountid", accountId);
+        Query acountByIdQuery = em.createNamedQuery("Account.findByAccountid").setParameter("accountid", accountId);
         Account account = (Account) acountByIdQuery.getSingleResult();
         return account;
     }
