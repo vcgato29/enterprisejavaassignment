@@ -81,7 +81,7 @@ public class AccountsBean implements AccountRemote {
         }
         if (clientType == ClientType.TM) {
             //check that the customer exist and isnt staff
-            if (login.getIsstaff() == 1) {
+            if (login.getIsstaff().equals(1)) {
                 //Call the Create AccountsBean method in the database it will need to take the CumtomerID and the AccountType
                 Account account = new Account();
                 account.setAccounttype(accountType.getCharRepresentation());
@@ -148,7 +148,7 @@ public class AccountsBean implements AccountRemote {
         } catch (NoResultException e) {
             throw new AccessDeniedException("\nUser does not exist");
         }
-        if (login.getIsstaff() == 1) {
+        if (login.getIsstaff().equals(1)) {
             throw new AccessDeniedException("\nStaff can not have any accounts");
         }
         short isTrue = 1;
@@ -184,7 +184,7 @@ public class AccountsBean implements AccountRemote {
 
         if (clientType == ClientType.IB || clientType == ClientType.ATM) {
             //check if the customer owns the accounts
-            if (account.getCustid() == login.getCustid()) {
+            if (account.getCustid().equals(login.getCustid())) {
                 List<Transactions> transcationList = em.createNamedQuery("Transactions.findTransactionList").setParameter("account", account.getAccountid()).setParameter("todate", toDate).setParameter("fromdate", fromDate).getResultList();
                 return transcationList;
             } else {

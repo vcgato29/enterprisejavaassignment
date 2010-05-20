@@ -25,7 +25,12 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "FINANCIALS")
-@NamedQueries({@NamedQuery(name = "Financials.findAll", query = "SELECT f FROM Financials f"), @NamedQuery(name = "Financials.findByStatementid", query = "SELECT f FROM Financials f WHERE f.statementid = :statementid"), @NamedQuery(name = "Financials.findByDate", query = "SELECT f FROM Financials f WHERE f.date = :date"), @NamedQuery(name = "Financials.findByTime", query = "SELECT f FROM Financials f WHERE f.time = :time"), @NamedQuery(name = "Financials.findByAccountid", query = "SELECT f FROM Financials f WHERE f.accountid = :accountid"), @NamedQuery(name = "Financials.findByBalance", query = "SELECT f FROM Financials f WHERE f.balance = :balance")})
+@NamedQueries({@NamedQuery(name = "Financials.findAll", query = "SELECT f FROM Financials f"),
+@NamedQuery(name = "Financials.findByStatementid", query = "SELECT f FROM Financials f WHERE f.statementid = :statementid"),
+@NamedQuery(name = "Financials.findByDate", query = "SELECT f FROM Financials f WHERE f.date = :date"),
+@NamedQuery(name = "Financials.findByTime", query = "SELECT f FROM Financials f WHERE f.time = :time"),
+@NamedQuery(name = "Financials.findByAccountid", query = "SELECT f FROM Financials f WHERE f.accountid = :accountid"),
+@NamedQuery(name = "Financials.findByBalance", query = "SELECT f FROM Financials f WHERE f.balance = :balance")})
 public class Financials implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
