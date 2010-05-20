@@ -30,43 +30,27 @@ public class LoginBean extends PortableRemoteObject implements LoginRemote {
 
     public boolean login(int custId, String password, ClientType clientType) throws RemoteException {
         Login login = null;
-
-                System.out.println("1");
         //check if the  login exisis
         try {
-
-                System.out.println("2");
             login = getLogin(custId);
         } catch (NoResultException e) {
             throw new AccessDeniedException("\nUser does not exist");
         }
-
-                System.out.println("3");
         if (login.getPassword().equals(password)) {
-
-                System.out.println("4");
             if (clientType == ClientType.TM) {
-
-                System.out.println("5");
-                if (login.getIsstaff() == 1) {
-
-                System.out.println("6");
+                    short isTrue = 1;
+                if (login.getIsstaff().equals(isTrue)) {
                     return true;
                 } else {
-
-                System.out.println("7");
                     return false;
                 }
             } else {
-
-                System.out.println("8");
                 //check if they have accounts
                 Query countQuery = em.createNamedQuery("Account.accountsCountActive").setParameter("custid", custId);
-                System.out.println("9");
                 List<Account> count = countQuery.getResultList();
-                System.out.println("test");
                 if (count.size() > 0) {
-                    if (login.getIsstaff() == 0) {
+                    short isFalse = 0;
+                    if (login.getIsstaff().equals(isFalse)) {
                         return true;
                     } else {
                         return false;
@@ -81,12 +65,8 @@ public class LoginBean extends PortableRemoteObject implements LoginRemote {
     }
 
     private Login getLogin(int userId) {
-        System.out.println("login 1");
-        
         Query userByLoginId = em.createNamedQuery("Login.findByCustid").setParameter("custid", userId);
-        System.out.println("login 2");
         Login login = (Login) userByLoginId.getSingleResult();
-        System.out.println("login 3");
         return login;
     }
 }

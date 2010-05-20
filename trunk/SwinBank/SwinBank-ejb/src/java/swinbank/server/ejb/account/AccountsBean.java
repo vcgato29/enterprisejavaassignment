@@ -81,7 +81,8 @@ public class AccountsBean implements AccountRemote {
         }
         if (clientType == ClientType.TM) {
             //check that the customer exist and isnt staff
-            if (login.getIsstaff().equals(1)) {
+            short isTrue = 1;
+            if (login.getIsstaff().equals(isTrue)) {
                 //Call the Create AccountsBean method in the database it will need to take the CumtomerID and the AccountType
                 Account account = new Account();
                 account.setAccounttype(accountType.getCharRepresentation());
@@ -148,10 +149,10 @@ public class AccountsBean implements AccountRemote {
         } catch (NoResultException e) {
             throw new AccessDeniedException("\nUser does not exist");
         }
-        if (login.getIsstaff().equals(1)) {
+        short isTrue = 1;
+        if (login.getIsstaff().equals(isTrue)) {
             throw new AccessDeniedException("\nStaff can not have any accounts");
         }
-        short isTrue = 1;
         List<Account> accountList = em.createNamedQuery("Account.findByCustidAndIsActive").setParameter("custid", custID).setParameter("isactive", isTrue).getResultList();
         return accountList;
     }
