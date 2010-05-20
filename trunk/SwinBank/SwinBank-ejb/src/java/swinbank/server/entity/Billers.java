@@ -22,7 +22,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "BILLERS")
-@NamedQueries({@NamedQuery(name = "Billers.findAll", query = "SELECT b FROM Billers b"), @NamedQuery(name = "Billers.findByBillerid", query = "SELECT b FROM Billers b WHERE b.billerid = :billerid"), @NamedQuery(name = "Billers.findByName", query = "SELECT b FROM Billers b WHERE b.name = :name"), @NamedQuery(name = "Billers.findByAccountid", query = "SELECT b FROM Billers b WHERE b.accountid = :accountid")})
+@NamedQueries({@NamedQuery(name = "Billers.findAll", query = "SELECT b FROM Billers b"),
+@NamedQuery(name = "Billers.findByBillerid", query = "SELECT b FROM Billers b WHERE b.billerid = :billerid"),
+@NamedQuery(name = "Billers.findByName", query = "SELECT b FROM Billers b WHERE b.name = :name"),
+@NamedQuery(name = "Billers.findByAccountid", query = "SELECT b FROM Billers b WHERE b.accountid = :accountid")})
 public class Billers implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

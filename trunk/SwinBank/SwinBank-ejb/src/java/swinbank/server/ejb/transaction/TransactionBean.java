@@ -89,7 +89,7 @@ public class TransactionBean {
 
         if (clientType == ClientType.ATM) {
             //check if the customer owns the accounts
-            if (account.getCustid() == custId) {
+            if (account.getCustid().equals(custId)) {
                 //withdrawal money from customers own account at ATM
                 account.setBalance(account.getBalance() - amount);
                 em.persist(account);
@@ -135,7 +135,7 @@ public class TransactionBean {
 
         if (clientType == ClientType.IB || clientType == ClientType.ATM) {
             //check if the customer owns the two accounts
-            if (toAccount.getCustid() == custId && fromAccount.getCustid() == custId) {
+            if (toAccount.getCustid().equals(custId) && fromAccount.getCustid().equals(custId)) {
                 toAccount.setBalance(toAccount.getBalance() + amount);
                 em.persist(toAccount);
                 fromAccount.setBalance(fromAccount.getBalance() - amount);
