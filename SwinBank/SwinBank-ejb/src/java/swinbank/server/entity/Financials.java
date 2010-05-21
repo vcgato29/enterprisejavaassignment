@@ -45,7 +45,7 @@ public class Financials implements Serializable {
     @Temporal(TemporalType.TIME)
     private Date time;
     @Column(name = "ACCOUNTID")
-    private String accountid;
+    private Integer accountid;
     @Column(name = "BALANCE")
     private Double balance;
 
@@ -80,11 +80,11 @@ public class Financials implements Serializable {
         this.time = time;
     }
 
-    public String getAccountid() {
+    public Integer getAccountid() {
         return accountid;
     }
 
-    public void setAccountid(String accountid) {
+    public void setAccountid(Integer accountid) {
         this.accountid = accountid;
     }
 

@@ -78,21 +78,21 @@ public class DB {
 
 
             //creates and populates the Transactions Table with Sample data.
-            stmnt.execute("CREATE TABLE TRANSACTIONS (TransId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_TRANSACTIONS PRIMARY KEY, TransType CHAR, Date BIGINT, FromAccountId CHAR(14), Amount DOUBLE, RecAccountId CHAR(14), Description CHAR(128))");
-            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', 1275608700000, NULL, 100.00, '1', '' )");
-            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', 1278028024000, NULL, 200.00, '2', '' )");
-            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('T', 1278215224000, '3', 100.00, '4', '' )");
-            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('B', 1280898004000, '1', 150.00, '1', '' )");
-            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('W', 1280955643000, '1', 100.00, NULL, '' )");
+            stmnt.execute("CREATE TABLE TRANSACTIONS (TransId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_TRANSACTIONS PRIMARY KEY, TransType CHAR, Date BIGINT, FromAccountId INT, Amount DOUBLE, RecAccountId INT, Description CHAR(128))");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', 1275608700000, NULL, 100.00, 1, '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('D', 1278028024000, NULL, 200.00, 2, '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('T', 1278215224000, 3, 100.00, 4, '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('B', 1280898004000, 1, 150.00, 1, '' )");
+            stmnt.executeUpdate("INSERT INTO TRANSACTIONS(TransType, Date, FromAccountId, Amount, RecAccountId, Description) VALUES" + "('W', 1280955643000, 1, 100.00, NULL, '' )");
 
 
             //creates and populates the Financials Table with Sample data.
-            stmnt.execute("CREATE TABLE FINANCIALS (StatementId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_FINANCIALS PRIMARY KEY, Date DATE, Time TIME, AccountId CHAR(14), Balance DOUBLE)");
+            stmnt.execute("CREATE TABLE FINANCIALS (StatementId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_FINANCIALS PRIMARY KEY, Date DATE, Time TIME, AccountId INT, Balance DOUBLE)");
 //            stmnt.executeUpdate("INSERT INTO TABLE FINANCIALS(Date, Time, AccountId, Balance) VALUES" + "('1', , , ,)");
 
 
             //creates and populates the Billers Table with Sample data.
-            stmnt.execute("CREATE TABLE BILLERS (BillerId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_BILLERS PRIMARY KEY, Name CHAR(40), AccountId CHAR(14))");
+            stmnt.execute("CREATE TABLE BILLERS (BillerId INT GENERATED ALWAYS AS IDENTITY CONSTRAINT PK_BILLERS PRIMARY KEY, Name CHAR(40), AccountId INT)");
 //            stmnt.execute("INSERT INTO TABLE BILLERS VALUES(BillerId, Name, AccountId) VALUES" + "( , , )");
 
         } catch (SQLException ex) {

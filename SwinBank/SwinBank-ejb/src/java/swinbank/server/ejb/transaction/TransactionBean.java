@@ -175,7 +175,7 @@ public class TransactionBean {
         Account billAccount = null;
         //check if the billers account exisis
         try {
-            billAccount = getAccount(accountId);
+            billAccount = getAccount(biller.getAccountid());
         } catch (NoResultException e) {
             throw new AccessDeniedException("\nBiller Account does not Exist!");
         }
@@ -240,8 +240,8 @@ public class TransactionBean {
         tran.setAmount(amount);
         tran.setDate(new Date().getTime());
         tran.setDescription(description);
-        tran.setFromaccountid(fromAccount.getAccountid().toString());
-        tran.setRecaccountid(fromAccount.getAccountid().toString());
+        tran.setFromaccountid(fromAccount.getAccountid());
+        tran.setRecaccountid(fromAccount.getAccountid());
 
         if (type == TransactionType.BillPayment) {
             tran.setTranstype('B');
