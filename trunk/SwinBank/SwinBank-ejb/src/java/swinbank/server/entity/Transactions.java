@@ -44,11 +44,11 @@ public class Transactions implements Serializable {
     @Column(name = "DATE")
     private long date;
     @Column(name = "FROMACCOUNTID")
-    private String fromaccountid;
+    private Integer fromaccountid;
     @Column(name = "AMOUNT")
     private Double amount;
     @Column(name = "RECACCOUNTID")
-    private String recaccountid;
+    private Integer recaccountid;
     @Column(name = "DESCRIPTION")
     private String description;
 
@@ -87,11 +87,11 @@ public class Transactions implements Serializable {
         this.date = date;
     }
 
-    public String getFromaccountid() {
+    public Integer getFromaccountid() {
         return fromaccountid;
     }
 
-    public void setFromaccountid(String fromaccountid) {
+    public void setFromaccountid(Integer fromaccountid) {
         this.fromaccountid = fromaccountid;
     }
 
@@ -103,11 +103,11 @@ public class Transactions implements Serializable {
         this.amount = amount;
     }
 
-    public String getRecaccountid() {
+    public Integer getRecaccountid() {
         return recaccountid;
     }
 
-    public void setRecaccountid(String recaccountid) {
+    public void setRecaccountid(Integer recaccountid) {
         this.recaccountid = recaccountid;
     }
 

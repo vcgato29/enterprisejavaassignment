@@ -36,7 +36,7 @@ public class Billers implements Serializable {
     @Column(name = "NAME")
     private String name;
     @Column(name = "ACCOUNTID")
-    private String accountid;
+    private Integer accountid;
 
     public Billers() {
     }
@@ -61,11 +61,11 @@ public class Billers implements Serializable {
         this.name = name;
     }
 
-    public String getAccountid() {
+    public Integer getAccountid() {
         return accountid;
     }
 
-    public void setAccountid(String accountid) {
+    public void setAccountid(Integer accountid) {
         this.accountid = accountid;
     }
 
