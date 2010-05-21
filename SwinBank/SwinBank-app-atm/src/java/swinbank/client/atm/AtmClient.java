@@ -50,8 +50,14 @@ public class AtmClient {
     public void promptAccountId() {
 
         System.out.println("\nPlease enter yout Account ID");
-
+        try
+        {
         accId = Integer.valueOf(in.nextLine());
+        }
+        catch(NumberFormatException e)
+        {
+        accId = -1;
+        }
     }
 
     public void selectOption() {

@@ -128,7 +128,14 @@ public class TellerClient {
         System.out.println("******************************\n");
 
         System.out.println("\nPlease enter your user identification number: ");
-        userId = Integer.valueOf(in.nextLine());
+        try
+        {
+            userId = Integer.valueOf(in.nextLine());
+        }
+        catch(NumberFormatException e)
+        {
+            userId = -1;
+        }
 
         System.out.println("Please enter your password: ");
         String pass = in.nextLine();
