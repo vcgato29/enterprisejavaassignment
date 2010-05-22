@@ -7,7 +7,6 @@ package web;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import javax.naming.InitialContext;
-import javax.naming.InvalidNameException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -76,53 +75,67 @@ public class MainServlet extends HttpServlet {
             if (fromPage.equals("/login")) {
                 String username = request.getParameter("userid");
                 String password = request.getParameter("password");
+
+                int usernameInt = -1;
                 boolean loggedIn = false;
 
-                loggedIn = loginService(username, password);
+                try
+                {
+                    usernameInt = Integer.parseInt(username);
+                    loggedIn = loginService(usernameInt, password);
+
+                } catch (NumberFormatException e)
+                {
+                    //not logged in, redirect to retry loggin
+                }
+                catch(RemoteException e)
+                {
+                    System.out.println("AnErrorOcured");
+                }
+
+                
 
                 System.out.println("LoggedIn = " + loggedIn);
                 if (loggedIn) {
                     user = new UserBean();
-                    user.setUsername(username);
+                    user.setUsername(usernameInt);
 
                     session.setAttribute("userBean", user);
 
 
-                    dispatchPage = "/accounts.jsp";
+                    dispatchPage = "/MainMenu.jsp";
                 } else {
                     dispatchPage = "/retry_login.jsp";
                 }
 
-            } else if (fromPage.equals("/account")) {
+            } else if (fromPage.equals("/accountSelection")) {
                 String accountId = request.getParameter("accountId");
                 double accountBalance = 0;
-                try
-                {
+                try {
+                    int accountInt = Integer.parseInt(accountId);
                     //BEAN. ACCOUNT BEAN. GETBALANCE()
-                    accountBalance = account.getBalance(accountId, user.getUsername(), client);
-                     user.setBalance(accountBalance);
-                    dispatchPage = "/BankMenu.jsp";
-                } catch (RemoteException e)
-                {
+                    accountBalance = account.getBalance(accountInt, user.getUsername(), client);
+                    user.setBalance(accountBalance);
+                    dispatchPage = "/AccountBalance.jsp";
+                } catch (RemoteException e) {
                     String message = e.getCause().getCause().getMessage();
-                    
-                    if(message.equals("\nAccount does not Exist!"))
-                    {
+
+                    if (message.equals("\nAccount does not Exist!")) {
                         dispatchPage = "/accounts_NoAccount.jsp";
-                    }
-                    else if(message.equals("\nClient does not have enough priviliges to perform this action!"))
-                    {
+                    } else if (message.equals("\nClient does not have enough priviliges to perform this action!")) {
                         dispatchPage = "/accounts_AccessDenied.jsp";
-                    }
-                    else
-                    {
-                        dispatchPage ="/unknown.html";
+                    } else {
+                        dispatchPage = "/unknown.html";
                     }
 
-                    
+
+                }
+                catch(NumberFormatException e)
+                {
+
                 }
 
-               
+
             } else if (fromPage.equals("/logout")) {
                 user = (UserBean) session.getAttribute("userBean");
 
@@ -136,7 +149,7 @@ public class MainServlet extends HttpServlet {
             } else {
                 dispatchPage = "/unknown.html";
             }
-        } catch (RemoteException e) {
+        } catch (Exception  e) {
             dispatchPage = "/service_down.html";
         }
         try {
@@ -161,12 +174,14 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private boolean loginService(String userId, String password) throws RemoteException {
+    
+
+    private boolean loginService(int username, String password) throws RemoteException {
         boolean validLogin = false;
 
-        if (userId != null && password != null) {
+        if (password != null) {
 
-            validLogin = login.login(userId, password, ClientType.IB);
+            validLogin = login.login(username, password, ClientType.IB);
 
         }
 

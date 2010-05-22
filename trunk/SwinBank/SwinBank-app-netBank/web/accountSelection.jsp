@@ -17,7 +17,7 @@
                 Welcome to Swinbank.
                 Please enter an account number to get started
             </p>
-            <form action="account" method="post">
+            <form action="accountSelection" method="post">
                 <p>
                     Account Number: <input type="text" name="accountId" size="25">
                 </p>

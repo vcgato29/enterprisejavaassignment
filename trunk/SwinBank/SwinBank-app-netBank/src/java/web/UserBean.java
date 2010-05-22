@@ -14,9 +14,9 @@ import java.io.Serializable;
  * @author Mark
  */
 public class UserBean implements Serializable {
-    private String username;
+    private int username;
     private double balance;
-    private String accountId;
+    private int accountId;
 
     public static final String PROP_USERNAME_PROPERTY = "username";
     public static final String PROP_BALANCE_PROPERTY = "balance";
@@ -29,12 +29,12 @@ public class UserBean implements Serializable {
         propertySuport = new PropertyChangeSupport(this);
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
-        String oldAccount = this.accountId;
+    public void setAccountId(int accountId) {
+        int oldAccount = this.accountId;
         this.accountId = accountId;
         propertySuport.firePropertyChange(PROP_ACCOUNT_PROPERTY, oldAccount, accountId);
     }
@@ -50,12 +50,12 @@ public class UserBean implements Serializable {
 
     }
 
-    public String getUsername() {
+    public int getUsername() {
         return username;
     }
 
-    public void setUsername(String userName) {
-        String oldVal = this.username;
+    public void setUsername(int userName) {
+        int oldVal = this.username;
         this.username = userName;
         propertySuport.firePropertyChange(PROP_USERNAME_PROPERTY, oldVal, username);
     }
