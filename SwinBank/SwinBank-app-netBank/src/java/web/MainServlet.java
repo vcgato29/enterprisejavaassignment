@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import swinbank.server.ejb.account.AccountRemote;
 import swinbank.server.ejb.login.LoginRemote;
+import swinbank.server.ejb.transaction.TransactionRemote;
 import swinbank.server.policy.ClientType;
+import swinbank.server.policy.InvalidFundsException;
 
 /**
  *
@@ -25,6 +27,8 @@ public class MainServlet extends HttpServlet {
 
     private LoginRemote login;
     private AccountRemote account;
+    private TransactionRemote transaction;
+
     HttpSession session;
     private UserBean user;
     private ClientType client = ClientType.IB;
@@ -38,6 +42,7 @@ public class MainServlet extends HttpServlet {
             login = (LoginRemote) context.lookup(LoginRemote.class.getName());
 
             account = (AccountRemote) context.lookup(AccountRemote.class.getName());
+            transaction = (TransactionRemote) context.lookup(TransactionRemote.class.getName());
         } catch (Exception e) {
             System.out.println("Could not locate Instance of LoginRemote");
             e.printStackTrace();
@@ -49,6 +54,8 @@ public class MainServlet extends HttpServlet {
     public void destroy() {
         login = null;
         user = null;
+        account = null;
+        transaction = null;
         session = null;
         super.destroy();
     }
@@ -108,7 +115,93 @@ public class MainServlet extends HttpServlet {
                     dispatchPage = "/retry_login.jsp";
                 }
 
-            } else if (fromPage.equals("/accountSelection")) {
+            }
+            
+            else if(fromPage.equals("/moneyTransfer"))
+            {
+                
+                String toAccountVal = request.getParameter("toAccount");
+                String fromAccountVal = request.getParameter("fromAccount");
+                String amountVal = request.getParameter("amount");
+
+                
+                int toAcount = -1;
+                int fromAccount = -1;
+                double amount = 0.01;
+
+                boolean TransactionComplete = false;
+                try
+                {
+                    
+                    toAcount = Integer.parseInt(toAccountVal);
+                    fromAccount = Integer.parseInt(fromAccountVal);
+                    amount = Double.parseDouble(amountVal);
+
+                    transaction.moneyTransfer(user.getUsername(), toAcount, fromAccount,client , amount, "");
+
+                    TransactionComplete = true;
+                }
+                catch(NumberFormatException e)
+                {
+                    dispatchPage = "/error_MoneyTransfer.jsp";
+                }
+                catch(RemoteException e)
+                {
+                    if(e.getCause().getCause() instanceof  InvalidFundsException)
+                    {
+                        dispatchPage = "/error_funds_MoneyTransfer.jsp";
+                    }
+                    else
+                    {
+                        dispatchPage = "/error_MoneyTransfer.jsp";
+                    }
+                }
+
+                if( TransactionComplete)
+                {
+                    dispatchPage = "success_MoneyTransfer.jsp";
+                }
+
+                //different money transfer pages.
+                //-MoneyTransferMenu
+                //
+                //-success_MoneyTransfer
+                //
+                //-error_MoneyTransfer
+                //-eror_funds_MoneyTransder
+
+
+            }
+            else if(fromPage.equals("/billPayment"))
+            {
+                String accountIdVal = request.getParameter("fromAccount"); //int
+                String billerIdVal = request.getParameter("biller"); //int
+                String amountVal = request.getParameter("amount"); //double
+                String description = request.getParameter("description");
+
+                int accountId = -1;
+                int billerId = -1;
+                double amount = 0.01;
+
+                boolean billPayed = false;
+                try
+                {
+                    accountId = Integer.parseInt(accountIdVal);
+                    billerId = Integer.parseInt(billerIdVal);
+                    amount = Double.parseDouble(amountVal);
+
+                    transaction.billPayment(accountId, billerId, client, amount, description);
+                }
+                catch(NumberFormatException e)
+                {
+                    dispatchPage = "/error_Bill.jsp";
+                }
+                catch(RemoteException e)
+                {
+                    dispatchPage = "/error_Bill.jsp";
+                }
+            }
+            else if (fromPage.equals("/accountSelection")) {
                 String accountId = request.getParameter("accountId");
                 double accountBalance = 0;
                 try {

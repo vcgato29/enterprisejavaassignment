@@ -1,6 +1,6 @@
 <%-- 
-    Document   : BillMenu
-    Created on : 22/05/2010, 9:02:37 PM
+    Document   : error_Bill
+    Created on : 23/05/2010, 8:40:01 PM
     Author     : Mark
 --%>
 
@@ -30,6 +30,8 @@
                 </p>
 
                 <input type="submit" value="Submit">
-            </form>
+        </form>
+        Error! please check all account numbers and ensure amount to transfer is greater than 0.
+        
     </body>
 </html>
