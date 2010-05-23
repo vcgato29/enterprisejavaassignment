@@ -1,6 +1,6 @@
 <%-- 
-    Document   : MoneyTransferMenu
-    Created on : 22/05/2010, 8:43:29 PM
+    Document   : error_MoneyTransfer
+    Created on : 23/05/2010, 1:08:56 AM
     Author     : Mark
 --%>
 
@@ -17,7 +17,7 @@
         <h1>Move your money!</h1>
         <form action="moneyTransfer" method="post">
                 <p>
-                    To Account: <input type="text" name="toAccount" size="25"/>
+                    Target Account: <input type="text" name="toAccount" size="25"/>
                 </p>
                 <p>
                     From Account: <input type="text" name="fromAccount" size="25"/>
@@ -27,5 +27,13 @@
                 </p>
                 <input type="submit" value="Submit">
             </form>
+        <p>
+            Error: Transfer could not be completed.
+        </p>
+        <p>
+            Make sure that the ammount to transfer is greater than zero.
+            Ensure that you have the correct account information.
+            The account must exist and you must own each account.
+        </p>
     </body>
 </html>
