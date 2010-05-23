@@ -6,6 +6,8 @@ package web;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Date;
+import java.util.List;
 import javax.naming.InitialContext;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import swinbank.server.ejb.account.AccountRemote;
 import swinbank.server.ejb.login.LoginRemote;
 import swinbank.server.ejb.transaction.TransactionRemote;
+import swinbank.server.entity.Transactions;
 import swinbank.server.policy.ClientType;
 import swinbank.server.policy.InvalidFundsException;
 
@@ -201,14 +204,21 @@ public class MainServlet extends HttpServlet {
                     dispatchPage = "/error_Bill.jsp";
                 }
             }
+            
             else if (fromPage.equals("/accountSelection")) {
                 String accountId = request.getParameter("accountId");
                 double accountBalance = 0;
+                List<Transactions> transactions = null;
+                Date now = new Date();
+
                 try {
                     int accountInt = Integer.parseInt(accountId);
                     //BEAN. ACCOUNT BEAN. GETBALANCE()
                     accountBalance = account.getBalance(accountInt, user.getUsername(), client);
+                    transactions = account.getTransactions(accountInt, user.getUsername(), client, null, null);
+
                     user.setBalance(accountBalance);
+                    user.setTransactions(transactions);
                     dispatchPage = "/AccountBalance.jsp";
                 } catch (RemoteException e) {
                     String message = e.getCause().getCause().getMessage();
