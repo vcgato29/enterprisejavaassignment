@@ -1,7 +1,6 @@
 package swinbank.client.atm;
 
 import java.rmi.RemoteException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -49,7 +48,7 @@ public class AtmClient {
 
     public void promptAccountId() {
 
-        System.out.println("\nPlease enter yout Account ID");
+        System.out.println("\nPlease enter your Account ID");
         try
         {
         accId = Integer.valueOf(in.nextLine());
@@ -68,16 +67,45 @@ public class AtmClient {
             System.out.println("************************");
             System.out.println("\n0. Cancel");
             System.out.println("1. Get Balance");
+            System.out.println("2. Transaction History");
+            System.out.println("3. Deposit");
+            System.out.println("4. Withdrawal");
+            System.out.println("5. Money Transfer");
 
-            String choice = in.nextLine();
+            int option = 0;
 
-            if (choice.equals("0")) {
-                System.out.println("\nThank You! Come Again");
-                return;
-            } else if (choice.equals("1")) {
-                this.getBalance();
-            } else {
+            try {
+                option = Integer.parseInt(in.nextLine());
+
+            } catch (NumberFormatException e) {
                 System.out.println("\nPlease enter valid option.");
+                selectOption();
+                return;
+            }
+
+            switch (option) {
+                case 0:
+                    System.out.println("\nThank You! Come Again");
+                    break;
+                case 1:
+                    getBalance();
+                    break;
+                case 2:
+                    listTransactionHistory();
+                    break;
+                case 3:
+                    deposit();
+                    break;
+                case 4:
+                    withdraw();
+                    break;
+                case 5:
+                    transferFunds();
+                    break;
+                default:
+                    System.out.println("\nPlease enter valid option.");
+                    selectOption();
+                    return;
             }
         }
     }
@@ -157,6 +185,7 @@ public class AtmClient {
             System.out.println(e.getCause().getCause().getMessage());
         }
 
+        System.out.println("\n End of History");
     }
 
     public void deposit() {
@@ -170,6 +199,8 @@ public class AtmClient {
         } catch (RemoteException e) {
             System.out.println(e.getCause().getCause().getMessage());
         }
+
+        System.out.println("\n Deposit Successful");
     }
 
     public void withdraw() {
@@ -183,6 +214,8 @@ public class AtmClient {
         } catch (RemoteException e) {
             System.out.println(e.getCause().getCause().getMessage());
         }
+
+        System.out.println("\n Withdraw Successful");
     }
 
     public void transferFunds() {
@@ -200,5 +233,7 @@ public class AtmClient {
         } catch (RemoteException e) {
             System.out.println(e.getCause().getCause().getMessage());
         }
+
+        System.out.println("\n Transfer Successful");
     }
 }
