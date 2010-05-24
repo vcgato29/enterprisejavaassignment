@@ -15,8 +15,7 @@
     </head>
     <body>
         <h1>Welcome to Swinbank</h1>
-        <a href="/accountSelection.jsp">Login</a>
-        <a href="/TransactionHistoryMenu.jsp">Transactions</a>
+        <a href="/accountSelection.jsp">Accounts</a>      
         <a href="/MoneyTransferMenu.jsp">Money Transfer</a>
         <a href="/BillMenu.jsp">Bill Payment</a>
     </body>
