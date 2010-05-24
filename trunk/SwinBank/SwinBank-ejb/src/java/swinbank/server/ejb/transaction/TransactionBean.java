@@ -46,7 +46,10 @@ public class TransactionBean {
             throw new InvalidAmmountException("\nAmmount must be greater than zero!");
         }
 
+        System.out.println("1");
+
         Account account = null;
+        System.out.println("2");
 
         //check if the  account exisis
         try {
@@ -54,11 +57,13 @@ public class TransactionBean {
         } catch (NoResultException e) {
             throw new AccessDeniedException("\nAccount does not Exist!");
         }
-
+        System.out.println("3");
         //deposit money from a TM or ATM into any account
         account.setBalance(account.getBalance() + amount);
         em.persist(account);
-        newTransaction(TransactionType.Deposit, null, account, amount, description);
+        System.out.println("4");
+        newTransaction(TransactionType.Deposit, -1, account.getAccountid(), amount, description);
+        System.out.println("5");
 
     }
 
@@ -93,7 +98,7 @@ public class TransactionBean {
                 //withdrawal money from customers own account at ATM
                 account.setBalance(account.getBalance() - amount);
                 em.persist(account);
-                newTransaction(TransactionType.Withdrawal, account, null, amount, description);
+                newTransaction(TransactionType.Withdrawal, account.getAccountid(), -1, amount, description);
             } else {
                 throw new AccessDeniedException("\nYou do not own the Accounts!");
             }
@@ -101,7 +106,7 @@ public class TransactionBean {
             //withdrawal money from TM
             account.setBalance(account.getBalance() - amount);
             em.persist(account);
-            newTransaction(TransactionType.Withdrawal, account, null, amount, description);
+            newTransaction(TransactionType.Withdrawal, account.getAccountid(), -1, amount, description);
         }
 
     }
@@ -140,7 +145,7 @@ public class TransactionBean {
                 em.persist(toAccount);
                 fromAccount.setBalance(fromAccount.getBalance() - amount);
                 em.persist(fromAccount);
-                newTransaction(TransactionType.MoneyTransfer, fromAccount, toAccount, amount, description);
+                newTransaction(TransactionType.MoneyTransfer, fromAccount.getAccountid(), toAccount.getAccountid(), amount, description);
             } else {
                 throw new AccessDeniedException("\nYou do not own one of the Accounts!");
             }
@@ -149,7 +154,7 @@ public class TransactionBean {
             em.persist(toAccount);
             fromAccount.setBalance(fromAccount.getBalance() - amount);
             em.persist(fromAccount);
-            newTransaction(TransactionType.MoneyTransfer, fromAccount, toAccount, amount, description);
+            newTransaction(TransactionType.MoneyTransfer, fromAccount.getAccountid(), toAccount.getAccountid(), amount, description);
         }
     }
 
@@ -209,7 +214,7 @@ public class TransactionBean {
         em.persist(billAccount);
         account.setBalance(account.getBalance() - amount);
         em.persist(account);
-        newTransaction(TransactionType.MoneyTransfer, account, billAccount, amount, description);
+        newTransaction(TransactionType.MoneyTransfer, account.getAccountid(), billAccount.getAccountid(), amount, description);
 
     }
 
@@ -235,13 +240,13 @@ public class TransactionBean {
         return account;
     }
 
-    private void newTransaction(TransactionType type, Account fromAccount, Account recAccount, Double amount, String description) {
+    private void newTransaction(TransactionType type, int fromAccount, int recAccount, Double amount, String description) {
         Transactions tran = new Transactions();
         tran.setAmount(amount);
         tran.setDate(new Date().getTime());
         tran.setDescription(description);
-        tran.setFromaccountid(fromAccount.getAccountid());
-        tran.setRecaccountid(fromAccount.getAccountid());
+        tran.setFromaccountid(fromAccount);
+        tran.setRecaccountid(recAccount);
 
         if (type == TransactionType.BillPayment) {
             tran.setTranstype('B');
