@@ -56,7 +56,8 @@ public class MainServlet extends HttpServlet {
     }
 
     @Override
-    public void destroy() {
+    public void destroy()
+    {
         login = null;
         user = null;
         account = null;
@@ -327,7 +328,6 @@ public class MainServlet extends HttpServlet {
         if (password != null) {
 
             validLogin = login.login(username, password, ClientType.IB);
-
         }
 
         return validLogin;
