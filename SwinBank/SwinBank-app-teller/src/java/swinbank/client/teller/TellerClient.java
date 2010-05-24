@@ -49,7 +49,7 @@ public class TellerClient {
 
     public void promptAccountId() {
 
-        System.out.println("\nPlease enter your Account ID or skip [None]");
+        System.out.println("\nPlease enter the customer's Account ID or skip [None]");
 
         try {
             accId = Integer.valueOf(in.nextLine());
@@ -70,7 +70,7 @@ public class TellerClient {
             System.out.println("3. Deposit");
             System.out.println("4. Withdrawal");
             System.out.println("5. Money Transfer");
-            System.out.println("6. Bill Payment");
+            System.out.println("6. Create New Account");
             System.out.println("7. Create Account");
             System.out.println("8. Remove Account");
 
@@ -105,7 +105,7 @@ public class TellerClient {
                     transferFunds();
                     break;
                 case 6:
-                    payBill();
+                    createNewAccount();
                     break;
                 case 7:
                     createAccount();
@@ -245,7 +245,7 @@ public class TellerClient {
         double amount = Double.valueOf(in.nextLine());
 
         try {
-            trans.moneyTransfer(userId, toAcc, toAcc, ClientType.TM, amount, "Swinbank Teller Transfer to Account #" + toAcc);
+            trans.moneyTransfer(userId, toAcc, accId, ClientType.TM, amount, "Swinbank Teller Transfer to Account #" + toAcc);
         } catch (RemoteException e) {
             System.out.println(e.getCause().getCause().getMessage());
         }
@@ -254,9 +254,10 @@ public class TellerClient {
     }
 
     public void createAccount() {
-
+        System.out.println("\n Enter the Customer ID");
+        int custId = Integer.valueOf(in.nextLine());
         try {
-            account.createAccount(userId, ClientType.TM, AccountType.Standard);
+            account.createAccount(custId, ClientType.TM, AccountType.Standard);
         } catch (RemoteException e) {
             System.out.println(e.getCause().getCause().getMessage());
         }
@@ -275,22 +276,15 @@ public class TellerClient {
         System.out.println("\n Account Removed");
     }
 
-    public void payBill() {
-
-        System.out.println("\n Enter biller ID");
-
-        int billerId = Integer.valueOf(in.nextLine());
-
-        System.out.println("\n How much will you pay?");
-
-        Double amount = Double.valueOf(in.nextLine());
-
+    public void createNewAccount() {
+        System.out.println("\n Enter the password for the account");
+        String password = in.nextLine();
         try {
-            trans.billPayment(accId, billerId, ClientType.TM, amount, null);
+            account.createAccountNewCustomer(ClientType.TM, AccountType.Standard, password);
         } catch (RemoteException e) {
             System.out.println(e.getCause().getCause().getMessage());
         }
 
-        System.out.println("\n Bill Payed");
+        System.out.println("\n Account Created");
     }
 }

@@ -229,7 +229,7 @@ public class AtmClient {
         double amount = Double.valueOf(in.nextLine());
 
         try {
-            trans.moneyTransfer(userId, toAcc, toAcc, ClientType.ATM, amount, "Swinbank ATM Transfer to Account #" + toAcc);
+            trans.moneyTransfer(userId, toAcc, accId, ClientType.ATM, amount, "Swinbank ATM Transfer to Account #" + toAcc);
         } catch (RemoteException e) {
             System.out.println(e.getCause().getCause().getMessage());
         }
