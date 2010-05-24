@@ -6,7 +6,9 @@ package web;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.naming.InitialContext;
 import javax.servlet.RequestDispatcher;
@@ -204,18 +206,54 @@ public class MainServlet extends HttpServlet {
                     dispatchPage = "/error_Bill.jsp";
                 }
             }
-            
+            else if(fromPage.equals("/transactionHistory"))
+            {
+                Date startDate = new Date();
+                Date endDate = new Date();
+                String period = request.getParameter("period");
+                if(period.equals("Today"))
+                {
+                    startDate = new Date(endDate.getYear(), endDate.getMonth(), endDate.getDate());
+                }else if(period.equals("This Month"))
+                {
+                    startDate = new Date(endDate.getYear(), endDate.getMonth() - 1, endDate.getDate());
+                }else if(period.equals("This Year"))
+                {
+                    startDate = new Date(endDate.getYear() - 1, endDate.getMonth(), endDate.getDate());
+                }else if(period.equals("All"))
+                {
+                    startDate = new Date(endDate.getYear() - 100, endDate.getMonth(), endDate.getDate());
+                }
+
+                
+                try
+                {
+                    List<Transactions> transactions = getTransactions(startDate, endDate);
+                    user.setTransactions(transactions);
+                }
+                catch(RemoteException e)
+                {
+                    dispatchPage = "/unknown.html";
+                }
+                dispatchPage = "/AccountBalance.jsp";
+            }
             else if (fromPage.equals("/accountSelection")) {
                 String accountId = request.getParameter("accountId");
                 double accountBalance = 0;
                 List<Transactions> transactions = null;
-                Date now = new Date();
+
+                Date startDate, endDate;
+                startDate = new Date();
+                endDate = new Date();
+                
+                startDate = new Date(endDate.getYear(), endDate.getMonth() - 1, endDate.getDate());
 
                 try {
                     int accountInt = Integer.parseInt(accountId);
+                    user.setAccountId(accountInt);
                     //BEAN. ACCOUNT BEAN. GETBALANCE()
                     accountBalance = account.getBalance(accountInt, user.getUsername(), client);
-                    transactions = account.getTransactions(accountInt, user.getUsername(), client, null, null);
+                    transactions = getTransactions(startDate, endDate);
 
                     user.setBalance(accountBalance);
                     user.setTransactions(transactions);
@@ -277,7 +315,11 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    
+
+    private List<Transactions> getTransactions(Date start, Date end) throws RemoteException
+    {
+        return account.getTransactions(user.getAccountId(), user.getUsername(), client, start, end);
+    }
 
     private boolean loginService(int username, String password) throws RemoteException {
         boolean validLogin = false;

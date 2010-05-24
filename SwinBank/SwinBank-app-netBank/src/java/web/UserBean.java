@@ -8,6 +8,8 @@ package web;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import swinbank.server.entity.Transactions;
 
@@ -58,13 +60,18 @@ public class UserBean implements Serializable {
         return username;
     }
 
+    public Iterator getTransactionsIterator()
+    {
+        return transactions.iterator();
+    }
+
     public void setUsername(int userName) {
         int oldVal = this.username;
         this.username = userName;
         propertySuport.firePropertyChange(PROP_USERNAME_PROPERTY, oldVal, username);
     }
 
-    public List<Transactions> getTransactions()
+    public Collection<Transactions> getTransactions()
     {
         return transactions;
     }

@@ -7,11 +7,11 @@
     <servlet-mapping>
         <servlet-name>BankServlet</servlet-name>
         <url-pattern>/BankServlet</url-pattern>
+        <url-pattern>/transactionHistory</url-pattern>
         <url-pattern>/login</url-pattern>
-        <url-pattern>/logout</url-pattern>
-        <url-pattern>/accountSelection</url-pattern>
         <url-pattern>/billPayment</url-pattern>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/accountSelection</url-pattern>
+        <url-pattern>/logout</url-pattern>
         <url-pattern>/moneyTransfer</url-pattern>
     </servlet-mapping>
     <session-config>
