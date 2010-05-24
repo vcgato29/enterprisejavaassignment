@@ -60,8 +60,8 @@ public class AtmClient {
     }
 
     public void selectOption() {
-
-        while (true) {
+        int option = -1;
+        while (option != 0) {
             System.out.println("\n************************");
             System.out.println("What do you want to do:");
             System.out.println("************************");
@@ -72,7 +72,7 @@ public class AtmClient {
             System.out.println("4. Withdrawal");
             System.out.println("5. Money Transfer");
 
-            int option = 0;
+            
 
             try {
                 option = Integer.parseInt(in.nextLine());
@@ -178,7 +178,7 @@ public class AtmClient {
             List<Transactions> transactions = account.getTransactions(accId, userId, ClientType.ATM, startDate, endDate);
 
             for (Transactions t : transactions) {
-                System.out.println(t.getDate() + "\t" + t.getDescription() + "\t" + t.getAmount());
+                System.out.println(new Date(t.getDate()).toString() + "\t" + t.getDescription() + "\t" + t.getAmount());
             }
 
         } catch (RemoteException e) {
