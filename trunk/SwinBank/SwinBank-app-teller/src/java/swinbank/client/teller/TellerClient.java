@@ -59,8 +59,8 @@ public class TellerClient {
     }
 
     public void selectOption() {
-
-        while (true) {
+        int option = -1;
+        while (option != 0) {
             System.out.println("\n************************");
             System.out.println("What do you want to do:");
             System.out.println("************************");
@@ -74,7 +74,7 @@ public class TellerClient {
             System.out.println("7. Create Account");
             System.out.println("8. Remove Account");
 
-            int option = 0;
+            
 
             try {
                 option = Integer.parseInt(in.nextLine());
@@ -196,7 +196,7 @@ public class TellerClient {
             List<Transactions> transactions = account.getTransactions(accId, userId, ClientType.TM, startDate, endDate);
 
             for (Transactions t : transactions) {
-                System.out.println(t.getDate() + "\t" + t.getDescription() + "\t" + t.getAmount());
+                System.out.println(new Date(t.getDate()).toString() + "\t" + t.getDescription() + "\t" + t.getAmount());
             }
 
         } catch (RemoteException e) {
